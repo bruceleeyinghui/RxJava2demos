@@ -1,9 +1,7 @@
 package com.icbc.rxjava2demos.generate;
 
-import android.support.annotation.MainThread;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,6 +9,7 @@ import android.widget.TextView;
 import com.icbc.rxjava2demos.R;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -27,6 +26,10 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
     Button create_disposable;
     Button just;
     Button difer;
+    Button interval;
+    Button timer;
+    Button range;
+    Button repeat;
     TextView tv_code;
     TextView tv_result;
 
@@ -37,18 +40,28 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
         create = findViewById(R.id.create);
         create_disposable = findViewById(R.id.create_disposable);
         just = findViewById(R.id.just);
-        difer =findViewById(R.id.difer);
+        difer = findViewById(R.id.difer);
+        interval = findViewById(R.id.interval);
+        timer = findViewById(R.id.timer);
+        range = findViewById(R.id.range);
+        repeat = findViewById(R.id.repeat);
+
         tv_code = findViewById(R.id.tv_code);
         tv_result = findViewById(R.id.tv_result);
+
         create.setOnClickListener(this);
         create_disposable.setOnClickListener(this);
         just.setOnClickListener(this);
         difer.setOnClickListener(this);
+        interval.setOnClickListener(this);
+        timer.setOnClickListener(this);
+        range.setOnClickListener(this);
+        repeat.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.create:
                 tv_code.setText("Observable.create(new ObservableOnSubscribe<String>() {\n" +
                         "                    @Override\n" +
@@ -143,7 +156,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
                         "\n" +
                         "                    }\n" +
                         "                });");
-                Observable.just("test1","test2","test3").subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+                Observable.just("test1", "test2", "test3").subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String string) throws Exception {
                         tv_result.setText(string);
@@ -164,20 +177,39 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
                         "                       tv_result.setText(s);\n" +
                         "                   }\n" +
                         "               });");
-               Observable observable =  Observable.defer(new Callable<ObservableSource<String>>() {
+                Observable observable = Observable.defer(new Callable<ObservableSource<String>>() {
                     @Override
                     public ObservableSource<String> call() throws Exception {
-                        return  Observable.just("sadffdsdfs");
+                        return Observable.just("sadffdsdfs");
                     }
                 });
-               observable.subscribe(new Consumer<String>() {
-                   @Override
-                   public void accept(String s) throws Exception {
-                       tv_result.setText(s);
-                   }
-               });
+                observable.subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        tv_result.setText(s);
+                    }
+                });
 
 
+                break;
+            case R.id.interval:
+                Disposable disposable1 = Observable.interval(3,TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        tv_result.setText("second  "+aLong);
+                        if(aLong>10){
+                        }
+
+                    }
+                });
+
+                break;
+            case R.id.timer:
+//                Observable.timer();
+                break;
+            case R.id.range:
+                break;
+            case R.id.repeat:
                 break;
         }
     }
