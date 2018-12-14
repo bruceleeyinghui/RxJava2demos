@@ -54,7 +54,7 @@
             android:id="@+id/create_disposable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="创建disposable" />
+            android:text="disposable" />
         <Button
             android:id="@+id/just"
             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
             android:id="@+id/difer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FROM"/>
+            android:text="DEFER"/>
     </LinearLayout>
 
 </LinearLayout>
