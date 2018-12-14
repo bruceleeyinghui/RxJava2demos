@@ -1,14 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".generate.CreateActivity">
-    <Button
-        android:id="@+id/create"
-        android:text="创建"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+            <TextView
+                android:id="@+id/tv_code"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </ScrollView>
+
+        <ScrollView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:background="#000"
+            android:layout_height="0dp">
+            <TextView
+                android:id="@+id/tv_result"
+                android:layout_width="match_parent"
+                android:textColor="#fff"
+                android:layout_height="match_parent" />
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创建" />
+
+        <Button
+            android:id="@+id/create_disposable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创建disposable" />
+        <Button
+            android:id="@+id/just"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JUST"/>
+        <Button
+            android:id="@+id/difer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FROM"/>
+    </LinearLayout>
+
+</LinearLayout>

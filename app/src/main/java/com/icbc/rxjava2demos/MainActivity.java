@@ -1,6 +1,7 @@
 package com.icbc.rxjava2demos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.icbc.rxjava2demos.generate.CreateActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int position) {
                 switch (position) {
                     case 0:
-
+                        startActivity(new Intent(MainActivity.this, CreateActivity.class));
                         break;
                 }
 
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(context).inflate(R.layout.item_main, viewGroup, false);
+            view.setOnClickListener(this);
             return new MyViewHolder(view);
         }
 
