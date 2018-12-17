@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.icbc.rxjava2demos.generate.CreateActivity;
+import com.icbc.rxjava2demos.activitys.CreateActivity;
 
 public class MainActivity extends AppCompatActivity {
 

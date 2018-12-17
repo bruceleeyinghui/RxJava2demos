@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".generate.CreateActivity">
+        <activity android:name=".activitys.CreateActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -28,6 +28,7 @@
                     android:scheme="zhumutest" />
             </intent-filter>
         </activity>
+        <activity android:name=".activitys.ChangeActivity"></activity>
     </application>
 
 </manifest>
