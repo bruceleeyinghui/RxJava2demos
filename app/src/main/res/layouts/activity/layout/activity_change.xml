@@ -77,16 +77,16 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/map"
+            android:id="@+id/groupBy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="map" />
+            android:text="groupby" />
 
         <Button
-            android:id="@+id/cast"
+            android:id="@+id/map_cast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="cast" />
+            android:text="map_cast" />
 
         <Button
             android:id="@+id/flatmap"
@@ -102,18 +102,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/groupBy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="groupBy" />
-    </LinearLayout>
 
 
 </LinearLayout>

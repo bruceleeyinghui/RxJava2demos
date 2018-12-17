@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.icbc.rxjava2demos.activitys.ChangeActivity;
 import com.icbc.rxjava2demos.activitys.CreateActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         startActivity(new Intent(MainActivity.this, CreateActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(MainActivity.this,ChangeActivity.class));
                         break;
                 }
 
