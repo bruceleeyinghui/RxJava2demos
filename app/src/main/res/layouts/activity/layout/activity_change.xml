@@ -1,9 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activitys.ChangeActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+
+            <TextView
+                android:id="@+id/tv_code"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </ScrollView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#000">
+
+            <TextView
+                android:id="@+id/tv_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="#fff" />
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/switchmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="switchmap" />
+
+        <Button
+            android:id="@+id/buffer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="buffer" />
+
+        <Button
+            android:id="@+id/window"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="window" />
+
+        <Button
+            android:id="@+id/scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="scan" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="map" />
+
+        <Button
+            android:id="@+id/cast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cast" />
+
+        <Button
+            android:id="@+id/flatmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="flatmap" />
+
+        <Button
+            android:id="@+id/concatMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="concatMap" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/groupBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="groupBy" />
+    </LinearLayout>
+
+
+</LinearLayout>
