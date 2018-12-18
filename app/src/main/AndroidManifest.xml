@@ -28,7 +28,8 @@
                     android:scheme="zhumutest" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.ChangeActivity"></activity>
+        <activity android:name=".activitys.ChangeActivity" />
+        <activity android:name=".activitys.FilterActivity"></activity>
     </application>
 
 </manifest>

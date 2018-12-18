@@ -20,6 +20,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Function3;
 import io.reactivex.internal.operators.observable.ObservableGroupBy;
 import io.reactivex.internal.operators.observable.ObservableGroupJoin;
+import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -274,24 +275,31 @@ public class ChangeActivity extends AppCompatActivity implements View.OnClickLis
                     public void accept(TestBean testBean) throws Exception {
                         sb.append(testBean.getNo());
                         tv_result.setText(sb.toString());
-
                     }
                 });
 
                 break;
             case R.id.groupBy:
                 tv_code.setText("groupBy 不能用from Array" +
-                        "Observable observableGroupBy = Observable.just(1,2,3,4,5,6,7,8,9,10)\n" +
+                        " Observable observableGroupBy = Observable.just(1,2,3,4,5,6,7,8,9,10)\n" +
                         "                        .groupBy(new Function<Integer,Boolean>(){\n" +
                         "                            @Override\n" +
                         "                            public Boolean apply(Integer integer) throws Exception {\n" +
                         "                                return integer>4;\n" +
                         "                            }\n" +
                         "                        });\n" +
-                        "                observableGroupBy.subscribe(new Consumer() {\n" +
+                        "                observableGroupBy.subscribe(new Consumer<GroupedObservable<Boolean,Integer>>() {\n" +
+                        "\n" +
                         "                    @Override\n" +
-                        "                    public void accept(Object o) throws Exception {\n" +
-                        "                        tv_result.setText(o.toString());\n" +
+                        "                    public void accept(final GroupedObservable<Boolean, Integer> booleanIntegerGroupedObservable) throws Exception {\n" +
+                        "                        booleanIntegerGroupedObservable.subscribe(new Consumer<Integer>() {\n" +
+                        "                            @Override\n" +
+                        "                            public void accept(Integer integer) throws Exception {\n" +
+                        "                                sb.append(integer+\"\"+booleanIntegerGroupedObservable.getKey());\n" +
+                        "                                sb.append(\"\\n\");\n" +
+                        "                                tv_result.setText(sb);\n" +
+                        "                            }\n" +
+                        "                        });\n" +
                         "\n" +
                         "                    }\n" +
                         "                });");
@@ -303,10 +311,18 @@ public class ChangeActivity extends AppCompatActivity implements View.OnClickLis
                                 return integer>4;
                             }
                         });
-                observableGroupBy.subscribe(new Consumer() {
+                observableGroupBy.subscribe(new Consumer<GroupedObservable<Boolean,Integer>>() {
+
                     @Override
-                    public void accept(Object o) throws Exception {
-                        tv_result.setText(o.toString());
+                    public void accept(final GroupedObservable<Boolean, Integer> booleanIntegerGroupedObservable) throws Exception {
+                        booleanIntegerGroupedObservable.subscribe(new Consumer<Integer>() {
+                            @Override
+                            public void accept(Integer integer) throws Exception {
+                                sb.append(integer+""+booleanIntegerGroupedObservable.getKey());
+                                sb.append("\n");
+                                tv_result.setText(sb);
+                            }
+                        });
 
                     }
                 });
