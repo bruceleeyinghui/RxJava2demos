@@ -7,12 +7,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.icbc.rxjava2demos.R;
+import com.icbc.rxjava2demos.bean.TestBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Function3;
+import io.reactivex.internal.operators.observable.ObservableGroupBy;
+import io.reactivex.internal.operators.observable.ObservableGroupJoin;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -155,6 +162,47 @@ public class ChangeActivity extends AppCompatActivity implements View.OnClickLis
 
                 break;
             case R.id.scan:
+                tv_code.setText("scan的重点是成对扫描，第一个输入值没有配对不做成对扫描直接返送给谁消费者" +
+                        "bservable observablescna = Observable.just(testBean1,testBean2).scan(new BiFunction<TestBean,TestBean,TestBean>() {\n" +
+                        "\n" +
+                        "                    @Override\n" +
+                        "                    public TestBean apply(TestBean testBean, TestBean testBean2) throws Exception {\n" +
+                        "                        testBean.setAge(testBean2.getAge());\n" +
+                        "                        return testBean;\n" +
+                        "                    }\n" +
+                        "                });\n" +
+                        "                observablescna.subscribe(new Consumer<TestBean>() {\n" +
+                        "                    @Override\n" +
+                        "                    public void accept(TestBean o) throws Exception {\n" +
+                        "                        tv_result.setText(o.getAge());\n" +
+                        "\n" +
+                        "                    }\n" +
+                        "                });\n");
+                TestBean testBean1 = new TestBean();
+                testBean1.setAge(11);
+                testBean1.setName("testbean1");
+                testBean1.setNo("0605101213");
+                TestBean testBean2 = new TestBean();
+                testBean2.setAge(11);
+                testBean2.setName("testbean1");
+                testBean2.setNo("0605101213");
+                Observable observablescna = Observable.just(testBean1,testBean2).scan(new BiFunction<TestBean,TestBean,TestBean>() {
+
+                    @Override
+                    public TestBean apply(TestBean testBean, TestBean testBean2) throws Exception {
+                        testBean.setAge(testBean2.getAge());
+                        return testBean;
+                    }
+                });
+                observablescna.subscribe(new Consumer<TestBean>() {
+                    @Override
+                    public void accept(TestBean o) throws Exception {
+                        tv_result.setText(""+o.getAge());
+
+                    }
+                });
+
+
                 break;
             case R.id.map_cast:
                 tv_code.setText("map将一种类型转换成另外一种类型" +
@@ -194,8 +242,75 @@ public class ChangeActivity extends AppCompatActivity implements View.OnClickLis
 
                 break;
             case R.id.flatmap:
+                tv_code.setText("Observable observablelatmap = Observable.just(1,2,3,4,5,6).flatMap(new Function<Integer, ObservableSource<TestBean>>() {\n" +
+                        "                    @Override\n" +
+                        "                    public ObservableSource<TestBean> apply(Integer integer) throws Exception {\n" +
+                        "                        TestBean testBean = new TestBean();\n" +
+                        "                        testBean.setAge(integer);\n" +
+                        "                        return Observable.just(testBean);\n" +
+                        "                    }\n" +
+                        "                });\n" +
+                        "                observablelatmap.subscribe(new Consumer<TestBean>() {\n" +
+                        "                    @Override\n" +
+                        "                    public void accept(TestBean testBean) throws Exception {\n" +
+                        "\n" +
+                        "                        tv_result.setText(testBean.getNo());\n" +
+                        "\n" +
+                        "                    }\n" +
+                        "                });");
+
+                Observable observablelatmap = Observable.just(1,2,3,4,5,6).flatMap(new Function<Integer, ObservableSource<TestBean>>() {
+                    @Override
+                    public ObservableSource<TestBean> apply(Integer integer) throws Exception {
+                        TestBean testBean = new TestBean();
+                        testBean.setAge(integer);
+                        testBean.setNo(""+integer);
+                        testBean.setName(""+integer);
+                        return Observable.just(testBean);
+                    }
+                });
+                observablelatmap.subscribe(new Consumer<TestBean>() {
+                    @Override
+                    public void accept(TestBean testBean) throws Exception {
+                        sb.append(testBean.getNo());
+                        tv_result.setText(sb.toString());
+
+                    }
+                });
+
                 break;
             case R.id.groupBy:
+                tv_code.setText("groupBy 不能用from Array" +
+                        "Observable observableGroupBy = Observable.just(1,2,3,4,5,6,7,8,9,10)\n" +
+                        "                        .groupBy(new Function<Integer,Boolean>(){\n" +
+                        "                            @Override\n" +
+                        "                            public Boolean apply(Integer integer) throws Exception {\n" +
+                        "                                return integer>4;\n" +
+                        "                            }\n" +
+                        "                        });\n" +
+                        "                observableGroupBy.subscribe(new Consumer() {\n" +
+                        "                    @Override\n" +
+                        "                    public void accept(Object o) throws Exception {\n" +
+                        "                        tv_result.setText(o.toString());\n" +
+                        "\n" +
+                        "                    }\n" +
+                        "                });");
+
+                Observable observableGroupBy = Observable.just(1,2,3,4,5,6,7,8,9,10)
+                        .groupBy(new Function<Integer,Boolean>(){
+                            @Override
+                            public Boolean apply(Integer integer) throws Exception {
+                                return integer>4;
+                            }
+                        });
+                observableGroupBy.subscribe(new Consumer() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        tv_result.setText(o.toString());
+
+                    }
+                });
+               
                 break;
         }
 
