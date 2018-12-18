@@ -171,7 +171,21 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 });
                 break;
             case R.id.filter_OfType:
-                tv_code.setText("");
+                tv_code.setText("过于简单 不再重读  predicate  里面是 条件" +
+                        " Observable.just(1, 2, 3, 4, 5, 6, 7).filter(new Predicate<Integer>() {\n" +
+                        "                    @Override\n" +
+                        "                    public boolean test(Integer integer) throws Exception {\n" +
+                        "                        return integer % 2 == 0;\n" +
+                        "                    }\n" +
+                        "                }).subscribe(new Consumer<Integer>() {\n" +
+                        "                    @Override\n" +
+                        "                    public void accept(Integer integer) throws Exception {\n" +
+                        "                        sb.append(integer);\n" +
+                        "                        sb.append(\"\\n\");\n" +
+                        "                        tv_result.setText(sb.toString());\n" +
+                        "\n" +
+                        "                    }\n" +
+                        "                });");
                 Observable.just(1, 2, 3, 4, 5, 6, 7).filter(new Predicate<Integer>() {
                     @Override
                     public boolean test(Integer integer) throws Exception {
