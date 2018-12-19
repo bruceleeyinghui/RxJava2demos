@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.icbc.rxjava2demos.activitys.ChangeActivity;
+import com.icbc.rxjava2demos.activitys.CombineActivity;
 import com.icbc.rxjava2demos.activitys.CreateActivity;
 import com.icbc.rxjava2demos.activitys.FilterActivity;
 
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rv = findViewById(R.id.rv);
-        String[] datas = {"创建操作", "变换操作","过滤操作"};
+        String[] datas = {"创建操作", "变换操作", "过滤操作", "结合操作"};
         MyAdapter myAdapter = new MyAdapter(this, datas) {
 
             @Override
@@ -35,10 +36,13 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, CreateActivity.class));
                         break;
                     case 1:
-                        startActivity(new Intent(MainActivity.this,ChangeActivity.class));
+                        startActivity(new Intent(MainActivity.this, ChangeActivity.class));
                         break;
                     case 2:
-                        startActivity(new Intent(MainActivity.this,FilterActivity.class));
+                        startActivity(new Intent(MainActivity.this, FilterActivity.class));
+                        break;
+                    case 3:
+                        startActivity(new Intent(MainActivity.this, CombineActivity.class));
                         break;
                 }
 

@@ -29,7 +29,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activitys.ChangeActivity" />
-        <activity android:name=".activitys.FilterActivity"></activity>
+        <activity android:name=".activitys.FilterActivity" />
+        <activity android:name=".activitys.CombineActivity"></activity>
     </application>
 
 </manifest>

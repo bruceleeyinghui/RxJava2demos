@@ -5,16 +5,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.icbc.rxjava2demos.R;
+import com.icbc.rxjava2demos.bean.TestBean;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 
 public class FilterActivity extends AppCompatActivity implements View.OnClickListener {
     TextView tv_result;
@@ -203,6 +209,22 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 break;
             case R.id.first_single:
+                tv_code.setText("Observable.range(1,6).first(3).subscribe(new Consumer<Integer>() {\n" +
+                        "                    @Override\n" +
+                        "                    public void accept(Integer integer) throws Exception {\n" +
+                        "                        sb.append(\"\\n\");\n" +
+                        "                        sb.append(integer);\n" +
+                        "                        tv_result.setText(sb);\n" +
+                        "                    }\n" +
+                        "                });");
+                Observable.range(1,6).takeLast(4).subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        sb.append("\n");
+                        sb.append(integer);
+                        tv_result.setText(sb);
+                    }
+                });
                 break;
             case R.id.last:
                 break;
@@ -211,12 +233,60 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.takelast_buffer:
                 break;
             case R.id.skip:
+                sb.setLength(0);
+                tv_code.setText("过于简单 不做解释" +
+                        " Observable.range(1,10).skip(4).subscribe(new Consumer<Integer>() {\n" +
+                        "                    @Override\n" +
+                        "                    public void accept(Integer integer) throws Exception {\n" +
+                        "                        sb.append(integer);\n" +
+                        "                        sb.append(\"\\n\");\n" +
+                        "                        tv_result.setText(sb);\n" +
+                        "                    }\n" +
+                        "                });");
+                Observable.range(1,10).skip(4).subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        sb.append(integer);
+                        sb.append("\n");
+                        tv_result.setText(sb);
+                    }
+                });
                 break;
             case R.id.skip_last:
                 break;
             case R.id.ignoreElements:
+
+                Observable.range(1,10).ignoreElements().subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Toast.makeText(FilterActivity.this,"不关心发射的数据，只关心结束没结束",Toast.LENGTH_SHORT).show();
+                        tv_result.setText("不关心发射的数据，只关心结束没结束");
+                    }
+                });
                 break;
             case R.id.ThrottleFirst:
+                tv_code.setText("过于简单不做解释" +
+                        "Observable observableThrottleFirst= Observable.just(1,2,3,4,5,6).throttleFirst(300,TimeUnit.MILLISECONDS);\n" +
+                        "                observableThrottleFirst.subscribe(new Consumer<Integer>() {\n" +
+                        "                    @Override\n" +
+                        "                    public void accept(Integer o) throws Exception {\n" +
+                        "                        sb.append(\"\\n\");\n" +
+                        "                        sb.append(o);\n" +
+                        "                        tv_result.setText(sb);\n" +
+                        "\n" +
+                        "                    }\n" +
+                        "                });");
+                Observable observableThrottleFirst= Observable.just(1,2,3,4,5,6).throttleFirst(300, TimeUnit.MILLISECONDS, Schedulers.io());
+                observableThrottleFirst.subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer o) throws Exception {
+                        sb.append("\n");
+                        sb.append(o);
+                        tv_result.setText(sb);
+
+                    }
+                });
+
                 break;
 
         }
