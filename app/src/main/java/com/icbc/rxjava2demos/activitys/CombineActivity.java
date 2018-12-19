@@ -1,7 +1,7 @@
 package com.icbc.rxjava2demos.activitys;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,11 +9,15 @@ import android.widget.TextView;
 import com.icbc.rxjava2demos.R;
 import com.icbc.rxjava2demos.bean.TestBean;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 
 public class CombineActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,13 +32,13 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
     Button startwith;
     Button rxswitch;
 
-    StringBuilder sb ;
+    StringBuilder sb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combine);
-        tv_code =findViewById(R.id.tv_code);
+        tv_code = findViewById(R.id.tv_code);
         tv_result = findViewById(R.id.tv_result);
         zip = findViewById(R.id.zip);
         merge = findViewById(R.id.merge);
@@ -55,7 +59,7 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.zip:
                 tv_code.setText("合并两个不同的observable 当发射的数量不同的时候  取最短的数量（zip最多可以合并9个参数最  可可以合并 array）" +
                         "Observable observable1 = Observable.create(new ObservableOnSubscribe() {\n" +
@@ -92,15 +96,15 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
                 Observable observable1 = Observable.create(new ObservableOnSubscribe() {
                     @Override
                     public void subscribe(ObservableEmitter e) throws Exception {
-                        int [] numbers = {1,2,3,4};
-                        for (int i = 0 ; i<numbers.length ; i++){
+                        int[] numbers = {1, 2, 3, 4};
+                        for (int i = 0; i < numbers.length; i++) {
                             e.onNext(numbers[i]);
                         }
 
                     }
                 });
-                Observable observable2 = Observable.just("A","B","C","D","E");
-                Observable observableZip = Observable.zip(observable1, observable2, new BiFunction<Integer,String ,TestBean>() {
+                Observable observable2 = Observable.just("A", "B", "C", "D", "E");
+                Observable observableZip = Observable.zip(observable1, observable2, new BiFunction<Integer, String, TestBean>() {
 
                     @Override
                     public TestBean apply(Integer integer, String s) throws Exception {
@@ -115,8 +119,8 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void accept(TestBean testBean) throws Exception {
                         sb.append("\n");
-                        sb.append("age "+testBean.getAge());
-                        sb.append("name "+testBean.getName());
+                        sb.append("age " + testBean.getAge());
+                        sb.append("name " + testBean.getName());
                         tv_result.setText(sb.toString());
                     }
                 });
@@ -136,9 +140,9 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
                         "\n" +
                         "                    }\n" +
                         "                });");
-                Observable observablemerge1 = Observable.just(1,2,3);
-                Observable observablemerge2 = Observable.just("A","B","C");
-                Observable observablemerge = Observable.merge(observablemerge1,observablemerge2);
+                Observable observablemerge1 = Observable.just(1, 2, 3);
+                Observable observablemerge2 = Observable.just("A", "B", "C");
+                Observable observablemerge = Observable.merge(observablemerge1, observablemerge2);
                 observablemerge.subscribe(new Consumer() {
                     @Override
                     public void accept(Object o) throws Exception {
@@ -188,15 +192,15 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
                 Observable observablecombine1 = Observable.create(new ObservableOnSubscribe() {
                     @Override
                     public void subscribe(ObservableEmitter e) throws Exception {
-                        int [] numbers = {1,2,3,4};
-                        for (int i = 0 ; i<numbers.length ; i++){
+                        int[] numbers = {1, 2, 3, 4};
+                        for (int i = 0; i < numbers.length; i++) {
                             e.onNext(numbers[i]);
                         }
 
                     }
                 });
-                Observable observablecombine2 = Observable.just("A","B","C","D","E");
-                Observable observableconmbine = Observable.combineLatest( observablecombine2,observablecombine1,new BiFunction<String ,Integer,TestBean>() {
+                Observable observablecombine2 = Observable.just("A", "B", "C", "D", "E");
+                Observable observableconmbine = Observable.combineLatest(observablecombine2, observablecombine1, new BiFunction<String, Integer, TestBean>() {
 
                     @Override
                     public TestBean apply(String s, Integer integer) throws Exception {
@@ -211,13 +215,80 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void accept(TestBean testBean) throws Exception {
                         sb.append("\n");
-                        sb.append("age "+testBean.getAge());
-                        sb.append("name "+testBean.getName());
+                        sb.append("age " + testBean.getAge());
+                        sb.append("name " + testBean.getName());
                         tv_result.setText(sb.toString());
                     }
                 });
                 break;
-            case R.id.join :
+            case R.id.join:
+                tv_code.setText("有些小瑕疵  后期   不明白  join的两个参数为什么要 delay才能收到" +
+                        "Observable observablejoin1 = Observable.just(1, 2, 3);\n" +
+                        "                Observable observablejoin2 = Observable.just(\"A\", \"B\", \"C\", \"D\", \"E\");\n" +
+                        "                Observable observableJoin = observablejoin1.join(observablejoin2,\n" +
+                        "                        new Function<Integer, Observable<Integer>>() {\n" +
+                        "                            @Override\n" +
+                        "                            public Observable<Integer> apply(Integer integer) throws Exception {\n" +
+                        "                                return Observable.just(integer).delay(3,TimeUnit.SECONDS);\n" +
+                        "                            }\n" +
+                        "                        },\n" +
+                        "                        new Function<String, Observable<String>>() {\n" +
+                        "                            @Override\n" +
+                        "                            public Observable<String> apply(String s) throws Exception {\n" +
+                        "                                return Observable.just(s).delay(3,TimeUnit.SECONDS);\n" +
+                        "                            }\n" +
+                        "                        },\n" +
+                        "                        new BiFunction<Integer ,String ,TestBean>() {\n" +
+                        "                            @Override\n" +
+                        "                            public TestBean apply(Integer integer, String s) throws Exception {\n" +
+                        "                                TestBean testBean = new TestBean();\n" +
+                        "                                testBean.setName(s);\n" +
+                        "                                testBean.setAge(integer);\n" +
+                        "                                return testBean;\n" +
+                        "                            }\n" +
+                        "                        }\n" +
+                        "                );\n" +
+                        "                observableJoin.subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<TestBean>() {\n" +
+                        "                    @Override\n" +
+                        "                    public void accept(TestBean o) throws Exception {\n" +
+                        "                        sb.append(o.getAge() +\"|\"+ o.getName());\n" +
+                        "                        sb.append(\"\\n\");\n" +
+                        "                        tv_result.setText(sb.toString());\n" +
+                        "                    }\n" +
+                        "                });");
+                Observable observablejoin1 = Observable.just(1, 2, 3);
+                Observable observablejoin2 = Observable.just("A", "B", "C", "D", "E");
+                Observable observableJoin = observablejoin1.join(observablejoin2,
+                        new Function<Integer, Observable<Integer>>() {
+                            @Override
+                            public Observable<Integer> apply(Integer integer) throws Exception {
+                                return Observable.just(integer).delay(3,TimeUnit.SECONDS);
+                            }
+                        },
+                        new Function<String, Observable<String>>() {
+                            @Override
+                            public Observable<String> apply(String s) throws Exception {
+                                return Observable.just(s).delay(3,TimeUnit.SECONDS);
+                            }
+                        },
+                        new BiFunction<Integer ,String ,TestBean>() {
+                            @Override
+                            public TestBean apply(Integer integer, String s) throws Exception {
+                                TestBean testBean = new TestBean();
+                                testBean.setName(s);
+                                testBean.setAge(integer);
+                                return testBean;
+                            }
+                        }
+                );
+                observableJoin.subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<TestBean>() {
+                    @Override
+                    public void accept(TestBean o) throws Exception {
+                        sb.append(o.getAge() +"|"+ o.getName());
+                        sb.append("\n");
+                        tv_result.setText(sb.toString());
+                    }
+                });
                 break;
             case R.id.startwith:
                 break;
