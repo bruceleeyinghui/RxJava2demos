@@ -222,6 +222,7 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
                 });
                 break;
             case R.id.join:
+                sb.setLength(0);
                 tv_code.setText("有些小瑕疵  后期   不明白  join的两个参数为什么要 delay才能收到" +
                         "Observable observablejoin1 = Observable.just(1, 2, 3);\n" +
                         "                Observable observablejoin2 = Observable.just(\"A\", \"B\", \"C\", \"D\", \"E\");\n" +
@@ -262,16 +263,16 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
                         new Function<Integer, Observable<Integer>>() {
                             @Override
                             public Observable<Integer> apply(Integer integer) throws Exception {
-                                return Observable.just(integer).delay(3,TimeUnit.SECONDS);
+                                return Observable.just(integer).delay(3, TimeUnit.SECONDS);
                             }
                         },
                         new Function<String, Observable<String>>() {
                             @Override
                             public Observable<String> apply(String s) throws Exception {
-                                return Observable.just(s).delay(3,TimeUnit.SECONDS);
+                                return Observable.just(s).delay(3, TimeUnit.SECONDS);
                             }
                         },
-                        new BiFunction<Integer ,String ,TestBean>() {
+                        new BiFunction<Integer, String, TestBean>() {
                             @Override
                             public TestBean apply(Integer integer, String s) throws Exception {
                                 TestBean testBean = new TestBean();
@@ -284,13 +285,31 @@ public class CombineActivity extends AppCompatActivity implements View.OnClickLi
                 observableJoin.subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<TestBean>() {
                     @Override
                     public void accept(TestBean o) throws Exception {
-                        sb.append(o.getAge() +"|"+ o.getName());
+                        sb.append(o.getAge() + "|" + o.getName());
                         sb.append("\n");
                         tv_result.setText(sb.toString());
                     }
                 });
                 break;
             case R.id.startwith:
+                sb.setLength(0);
+                tv_code.setText("在指定的数据前 添加指定的 一个或者多个数据" +
+                        "Observable.just(1, 2, 3).startWith(4).subscribe(new Consumer<Integer>() {\n" +
+                        "                    @Override\n" +
+                        "                    public void accept(Integer integer) throws Exception {\n" +
+                        "                        sb.append(integer);\n" +
+                        "                        tv_result.setText(sb.toString());\n" +
+                        "                    }\n" +
+                        "                });");
+                Observable.just(1, 2, 3).startWith(4).subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        sb.append(integer);
+                        tv_result.setText(sb.toString());
+                    }
+                });
+
+
                 break;
             case R.id.rxswitch:
                 break;
